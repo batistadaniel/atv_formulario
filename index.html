@@ -40,19 +40,20 @@
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
 
-      // Pega os dados do formulário de forma simples 
+      // pega os dados do formulario de forma simples 
       const dados = {
         nome: form.nome.value,
         nota1: form.nota1.value,
         nota2: form.nota2.value
       };
 
+      // isso aqui deu trabalho pra porra, fui me guiando por um tutorial que nao dava para fazer igual, tive que pesquisar muito para entender como enviar os dados do formulario usando fetch, mas consegui kkkkk
       const response = await fetch("http://localhost:3000/calculo", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json" // Avisa o servidor que é JSON
+          "Content-Type": "application/json" // avisa o servidor que e json
         },
-        body: JSON.stringify(dados) // Transforma o objeto em texto
+        body: JSON.stringify(dados) // transforma o objeto em texto
       });
 
       // pega a resposta e transforma em texto
@@ -60,6 +61,9 @@
 
       // insere na div de situacao
       situacao.innerHTML = conteudo;
+
+      // mais uma frescuragem para limpar o formulario depois de enviar kkkkk
+      form.reset();
     });
 
   </script>
