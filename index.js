@@ -30,9 +30,11 @@ app.post('/calculo', (req, res) => {
 
   // enviando para usar no front
   res.send(`
-    Nome: ${nome} <br>
+    Nome do aluno: ${nome} <br>
+    Nota do 1º Bimestre: ${nota1} <br>
+    Nota do 2º Bimestre: ${nota2} <br>
     Média: ${media} <br>
-    Situacao: ${situacaoAluno}
+    Situacao do aluno: ${situacaoAluno}
   `);
 });
 
