@@ -6,8 +6,11 @@
   <title>Calculo da media do aluno</title>
 </head>
 <body>
-  <form action="http://localhost:3000/calculo" method="POST">
+  <!-- formulario com metodo POST para enviar para o servidor -->
+  <form id="form" action="http://localhost:3000/calculo" method="POST">
 
+    <!-- for e para o id -->
+    <!-- name e o que sera usado no servidor -->
     <label for="nome">Nome:</label>
     <input type="text" id="nome" name="nome" required>
     <br>
@@ -20,8 +23,45 @@
     <input type="number" id="nota2" name="nota2"  required>
     <br>
 
+    <!-- tipo submit para quando o form form enviado -->
     <button type="submit" id="btn-calculo">Calcular Média</button>
   </form>
-  <div id="resultado"></div>
+
+  <!-- mostar a situacao do aluno -->
+  <div id="situacao"></div>
+
+
+  <script>
+    // pega o form e o campo onde sera exibido
+    const form = document.getElementById("form")
+    const situacao = document.getElementById("situacao")
+
+    // quando o formulario for enviado
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      // Pega os dados do formulário de forma simples 
+      const dados = {
+        nome: form.nome.value,
+        nota1: form.nota1.value,
+        nota2: form.nota2.value
+      };
+
+      const response = await fetch("http://localhost:3000/calculo", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json" // Avisa o servidor que é JSON
+        },
+        body: JSON.stringify(dados) // Transforma o objeto em texto
+      });
+
+      // pega a resposta e transforma em texto
+      const conteudo = await response.text();
+
+      // insere na div de situacao
+      situacao.innerHTML = conteudo;
+    });
+
+  </script>
 </body>
 </html>
