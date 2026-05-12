@@ -27,25 +27,71 @@
     <button type="submit" id="btn-calculo">Calcular Média</button>
   </form>
 
+    
   <!-- mostar a situacao do aluno -->
-  <div id="situacao"></div>
+  <div id="situacao" style="margin-top: 20px;"></div>
 
+  <!-- tabela com os dados em localstorage -->
+  <table border="2" cellspacing="0" cellpadding="6" width="50%" style="padding:10px; margin-top: 50px;">
+    
+    <thead>
+      <tr>
+        <th>Nome</th>
+        <th>Nota 1</th>
+        <th>Nota 2</th>
+      </tr>
+    </thead>
+    
+    <tbody id="tabela">
+    </tbody>
+    
+  </table>
 
   <script>
     // pega o form e o campo onde sera exibido
-    const form = document.getElementById("form")
-    const situacao = document.getElementById("situacao")
+    const form = document.getElementById("form");
+    const situacao = document.getElementById("situacao");
+    // pega o tbody da tabela
+    const tabela = document.getElementById('tabela')
+
+    // vetor para adicionar os alunos
+    let alunos = [];
+
+    // tenta pegar do localStorage
+    const dadosStorage = localStorage.getItem('alunos');
+
+    // se existir algo salvo
+    if(dadosStorage){
+
+      // converte string JSON para vetor
+      alunos = JSON.parse(dadosStorage)
+
+      // mostra na tabela
+      mostrarTabela()
+    }
 
     // quando o formulario for enviado
     form.addEventListener("submit", async (e) => {
+      // evita recarregar a pagina
       e.preventDefault();
 
-      // pega os dados do formulario de forma simples 
-      const dados = {
+      // pega os dados do formulario de forma simples e cria um objeto
+      const dadosAluno = {
         nome: form.nome.value,
         nota1: form.nota1.value,
         nota2: form.nota2.value
       };
+
+      alunos.push(dadosAluno);
+
+       // salva no localStorage
+      localStorage.setItem(
+        'alunos',
+        JSON.stringify(alunos)
+      );
+
+      // atualiza tabela
+      mostrarTabela();
 
       // isso aqui deu trabalho pra porra, fui me guiando por um tutorial que nao dava para fazer igual, tive que pesquisar muito para entender como enviar os dados do formulario usando fetch, mas consegui kkkkk
       const response = await fetch("http://localhost:3000/calculo", {
@@ -53,7 +99,7 @@
         headers: {
           "Content-Type": "application/json" // avisa o servidor que e json
         },
-        body: JSON.stringify(dados) // transforma o objeto em texto
+        body: JSON.stringify(dadosAluno) // transforma o objeto em texto
       });
 
       // pega a resposta e transforma em texto
@@ -65,6 +111,26 @@
       // mais uma frescuragem para limpar o formulario depois de enviar kkkkk
       form.reset();
     });
+
+    // funcao para mostrar a tabela
+    function mostrarTabela() {
+      // limpa tabela antes
+      tabela.innerHTML = '';
+
+      // percorre vetor
+      alunos.forEach(function(aluno){
+
+        // adiciona linha
+        tabela.innerHTML += `
+          <tr>
+            <td>${aluno.nome}</td>
+            <td>${aluno.nota1}</td>
+            <td>${aluno.nota2}</td>
+          </tr>
+        `
+
+      });
+    }
 
   </script>
 </body>
