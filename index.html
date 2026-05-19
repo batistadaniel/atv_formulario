@@ -6,8 +6,7 @@
   <title>Calculo da media do aluno</title>
 </head>
 <body>
-  <!-- formulario com metodo POST para enviar para o servidor -->
-  <form id="form" action="http://localhost:3000/calculo" method="POST">
+  <form id="form">
 
     <!-- for e para o id -->
     <!-- name e o que sera usado no servidor -->
@@ -32,10 +31,11 @@
   <div id="situacao" style="margin-top: 20px;"></div>
 
   <!-- tabela com os dados em localstorage -->
-  <table border="2" cellspacing="0" cellpadding="6" width="50%" style="padding:10px; margin-top: 50px;">
+  <table id="cabecalho-tabela" border="2" cellspacing="0" cellpadding="6" width="50%" style="display: none; padding:10px; margin-top: 50px;">
     
     <thead>
       <tr>
+        <th></th>
         <th>Nome</th>
         <th>Nota 1</th>
         <th>Nota 2</th>
@@ -94,6 +94,7 @@
       mostrarTabela();
 
       // isso aqui deu trabalho pra porra, fui me guiando por um tutorial que nao dava para fazer igual, tive que pesquisar muito para entender como enviar os dados do formulario usando fetch, mas consegui kkkkk
+      // isto abaixo envia o form para o backend
       const response = await fetch("http://localhost:3000/calculo", {
         method: "POST",
         headers: {
@@ -114,15 +115,21 @@
 
     // funcao para mostrar a tabela
     function mostrarTabela() {
+
+      // ativa o cabecalho-tabela
+      // document.getElementById('cabecalho-tabela').style.width = '100%'
+      document.getElementById('cabecalho-tabela').style.display = ''
+      
       // limpa tabela antes
       tabela.innerHTML = '';
 
       // percorre vetor
-      alunos.forEach(function(aluno){
+      alunos.forEach(function(aluno, index){
 
         // adiciona linha
         tabela.innerHTML += `
           <tr>
+            <td>${index + 1}</td>
             <td>${aluno.nome}</td>
             <td>${aluno.nota1}</td>
             <td>${aluno.nota2}</td>
