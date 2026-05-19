@@ -1,6 +1,6 @@
 # Aluno: Daniel Batista
 
-## Programa usando HTML e Node.js com Express, CORS e Body Parser
+## Programa usando HTML e Node.js com Express e CORS
 
 ### O programa recebe o nome de um aluno, a nota do primeiro bimestre e a nota do segundo bimestre. Em seguida, exibe o nome, as notas, a média e a situação (Aprovado, Reprovado ou Exame Final).
 
